@@ -1,61 +1,71 @@
 package com.java.array;
 
-import java.util.Arrays;
+import java.util.*;
 
 public class HeapSort {
-	public void sort(int arr[]) {
-		int n = arr.length;
 
-		// Build heap (rearrange array)
-		for (int i = n / 2 - 1; i >= 0; i--)
-			heapify(arr, n, i);
+	public static void buildheap(int[] arr) {
 
-		// One by one extract an element from heap
-		for (int i = n - 1; i >= 0; i--) {
-			// Move current root to end
-			int temp = arr[0];
-			arr[0] = arr[i];
-			arr[i] = temp;
-
-			// call max heapify on the reduced heap
-			heapify(arr, i, 0);
+		/*
+		 * As last non leaf node will be at (arr.length-1)/2 so we will start
+		 * from this location for heapifying the elements
+		 */
+		for (int i = (arr.length - 1) / 2; i >= 0; i--) {
+			heapify(arr, i, arr.length - 1);
 		}
 	}
 
-	// To heapify a subtree rooted with node i which is
-	// an index in arr[]. n is size of heap
-	void heapify(int arr[], int n, int i) {
-		int largest = i; // Initialize largest as root
-		int l = 2 * i + 1; // left = 2*i + 1
-		int r = 2 * i + 2; // right = 2*i + 2
+	public static void heapify(int[] arr, int i, int size) {
+		{
+			int left = 2 * i + 1;
+			int right = 2 * i + 2;
+			int max;
+			if (left <= size && arr[left] > arr[i]) {
+				max = left;
+			} else {
+				max = i;
+			}
 
-		// If left child is larger than root
-		if (l < n && arr[l] > arr[largest])
-			largest = l;
-
-		// If right child is larger than largest so far
-		if (r < n && arr[r] > arr[largest])
-			largest = r;
-
-		// If largest is not root
-		if (largest != i) {
-			int swap = arr[i];
-			arr[i] = arr[largest];
-			arr[largest] = swap;
-
-			// Recursively heapify the affected sub-tree
-			heapify(arr, n, largest);
+			if (right <= size && arr[right] > arr[max]) {
+				max = right;
+			}
+			// If max is not current node, exchange it with max of left and
+			// right
+			// child
+			if (max != i) {
+				exchange(arr, i, max);
+				heapify(arr, max, size);
+			}		
+			System.out.println(right);
 		}
+				
 	}
 
-	// Driver program
-	public static void main(String args[]) {
-		int arr[] = { 12, 11, 13, 5, 6, 7 };
-		HeapSort ob = new HeapSort();
-		System.out.println("Original Array: ");
+	public static void exchange(int[] arr, int i, int j) {
+		int t = arr[i];
+		arr[i] = arr[j];
+		arr[j] = t;
+	}
+
+	public static int[] heapSort(int[] arr) {
+
+		buildheap(arr);
+		int sizeOfHeap = arr.length - 1;
+		for (int i = sizeOfHeap; i > 0; i--) {
+			exchange(arr, 0, i);
+			sizeOfHeap = sizeOfHeap - 1;
+			heapify(arr, 0, sizeOfHeap);
+		}
+		return arr;
+	}
+
+	public static void main(String[] args) {
+		int[] arr = { 1, 10, 16, 19, 3, 5 };
+		System.out.println("Before Heap Sort : ");
 		System.out.println(Arrays.toString(arr));
-		ob.sort(arr);
-		System.out.println("Sorted array is: ");
+		arr = heapSort(arr);
+		System.out.println("=====================");
+		System.out.println("After Heap Sort : ");
 		System.out.println(Arrays.toString(arr));
 	}
 }

@@ -9,16 +9,15 @@ public class PairSumEqualToNumber2 {
 
 		System.out.println("Pairs of elements whose sum is " + inputNumber + " are : ");
 		// Initializing i to first index
-
 		int i = 0;
+		
 		// Initializing j to last index
-
 		int j = inputArray.length - 1;
+				
 		// Till i crosses j, perform the following task
-
 		while (i < j) {
+			
 			// If inputArray[i]+inputArray[j] is equal to inputNumber
-
 			if (inputArray[i] + inputArray[j] == inputNumber) {
 				// then Print inputArray[i] and inputArray[j]
 
